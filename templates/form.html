@@ -20,11 +20,16 @@
         Find Your Best-Fit Grad Schools
       </h1>
       <form
-        hx-post="/recommend/"
+        hx-get="/recommend/"
         hx-target="#results"
         hx-swap="innerHTML"
+        hx-encoding="application/json"
+        hx-indicator="#loading"
         class="space-y-4"
       >
+        <div id="loading" class="hidden text-center text-green-600 font-medium">
+          Loading recommendations...
+        </div>
         <div>
           <label class="block font-medium">Program</label>
           <input
@@ -71,9 +76,7 @@
           Get Recommendations
         </button>
       </form>
-      <div id="results" class="mt-6">
-        <!-- AI results will appear here -->
-      </div>
+      <div id="results" class="mt-6"></div>
     </div>
   </body>
 </html>
