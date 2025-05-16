@@ -1,23 +1,41 @@
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-  {% for uni in universities %}
-  <div class="bg-white shadow-md rounded-2xl p-4 border border-green-300">
-    <h2 class="text-xl font-semibold text-green-700">{{ uni.name }}</h2>
-    <span
-      class="inline-block mt-1 text-sm {{ uni.badge_color }} px-2 py-1 rounded-full"
-    >
-      Admission Chance: {{ uni.chance }}
-    </span>
-    <p class="mt-2 text-gray-600 text-sm">{{ uni.reason }}</p>
+<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-green-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-green-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
   </div>
-  {% endfor %}
+
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-yellow-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-yellow-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-red-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-red-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
+  </div>
 </div>
+
 <div class="mt-6 text-center">
-  <button
-    hx-get="/"
-    hx-target="body"
-    hx-swap="innerHTML"
-    class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition"
-  >
-    Try Again
-  </button>
-</div>
+    <button 
+      class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition" 
+      onclick="window.location.reload();"
+    >
+      Try Again
+    </button>
+  </div>
+
