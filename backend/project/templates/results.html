@@ -1,4 +1,21 @@
-<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+{% for uni in universities %}
+<div
+  class="bg-white shadow-md rounded-2xl p-6 border-l-4 border-{{ uni.color }}"
+>
+  <h3 class="text-xl font-bold text-gray-800 mb-2">{{ uni.name }}</h3>
+  <p>
+    <span class="font-medium">Admission Chance:</span>
+    <span class="text-{{ uni.color }}-600 font-semibold">{{ uni.chance }}</span>
+  </p>
+  <p><span class="font-medium">Reason:</span> {{ uni.reason }}</p>
+  <p>
+    <span class="font-medium">Application Readiness:</span> {{ uni.readiness }}%
+  </p>
+  <p><span class="font-medium">Suggestions:</span> {{ uni.suggestions }}</p>
+</div>
+{% endfor %}
+
+<!-- <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
   <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-green-500">
     <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
     <p class="text-sm text-gray-600 mt-1">
@@ -37,5 +54,5 @@
     >
       Try Again
     </button>
-  </div>
+  </div> -->
 
