@@ -24,6 +24,8 @@
       hx-target="#results"
       hx-swap="innerHTML"
       hx-encoding="application/x-www-form-urlencoded"
+      hx-headers='{"Content-Type": "application/json"}'
+      onsubmit="handleFormSubmit(event)"
       hx-indicator="#loading"
       class="space-y-4"
     >
@@ -76,7 +78,24 @@
           Get Recommendations
         </button>
       </form>
-      <div id="results" hx-target="#results" hx-swap="innerHTML" class="mt-6"></div>
+      <div id="results" class="mt-4"></div>
+
+      <button onclick="location.reload()">Try Again</button>
+
+      <script>
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          const form = event.target;
+          const data = {
+            program: form.program.value,
+            gpa: form.gpa.value,
+            gre: form.gre.value,
+            research: form.research.value
+          };
+          form.setAttribute("hx-vals", JSON.stringify(data));
+          form.submit(); // Let HTMX handle the rest
+        }
+      </script>
     </div>
   </body>
 </html>
