@@ -3,7 +3,7 @@ from .models import *
 
 
 class UserDataAdmin(admin.ModelAdmin):
-    list_display = ('user', 'date','program', 'gpa', 'gre')
+    list_display = ('user', 'date','program', 'gpa', 'gre', 'experience')
     list_filter = ('user', 'date')
     search_fields = ('user__username', 'program')
     ordering = ('-date',) # Enable autocomplete for the user field
@@ -11,9 +11,9 @@ class UserDataAdmin(admin.ModelAdmin):
     
     
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'ranking', 'acceptance_rate', 'avg_gre', 'avg_gpa')
-    list_filter = ('location', 'ranking')
-    search_fields = ('name', 'location')
+    list_display = ('user','name', 'location', 'ranking', 'acceptance_rate', 'avg_gre', 'avg_gpa')
+    list_filter = ('user', 'ranking')
+    search_fields = ('user', 'location')
     ordering = ('ranking',)
     
 admin.site.register(UserData, UserDataAdmin)
