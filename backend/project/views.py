@@ -1,16 +1,23 @@
 import json
 import os
+from django.shortcuts import render
 from pathlib import Path
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from langchain.chains import load_chain
 from .models import *
 
 BASE_DIR = Path(__file__).resolve().parent
 FLOW_PATH = BASE_DIR / "langflows/AI_flow.json"
 
+def home(request):
+    return render(request, "form.html")
+
+@method_decorator(csrf_exempt, name='dispatch')
 class RecomendationView(View):
     def post(self, request, *args, **kwargs):
         try:
