@@ -1,17 +1,17 @@
 import json
 import os
 from pathlib import Path
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+from django.template.loader import render_to_string
 from langchain.chains import load_chain
-from langchain.chains.base import Chain
 from .models import *
 
 BASE_DIR = Path(__file__).resolve().parent
 FLOW_PATH = BASE_DIR / "langflows/AI_flow.json"
 
-class LangflowExecuteView(View):
+class RecomendationView(View):
     def post(self, request, *args, **kwargs):
         try:
             # Get user inputs from POST request
@@ -40,9 +40,15 @@ class LangflowExecuteView(View):
                 "research": research,
             }
             result = chain.run(inputs)
-
-            # Return the result as JSON
-            return JsonResponse({"result": result})
+            
+            # Render the response
+            html_content = f"""
+            <div class="bg-white p-4 rounded-md shadow border border-green-300">
+                <h3 class="font-bold mb-2">Recommendations:</h3>
+                <div>{result}</div>
+            </div>
+            """
+            return HttpResponse(html_content)
 
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            return HttpResponse(f"<div class='text-red-600'>Error: {str(e)}</div>", status=500)

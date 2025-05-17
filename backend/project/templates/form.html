@@ -20,10 +20,10 @@
         Find Your Best-Fit Grad Schools
       </h1>
       <form
-        hx-get="/recommend/"
+        hx-post="/recommend/"
         hx-target="#results"
         hx-swap="innerHTML"
-        hx-encoding="application/json"
+        hx-encoding="application/x-www-form-urlencoded"
         hx-indicator="#loading"
         class="space-y-4"
       >
