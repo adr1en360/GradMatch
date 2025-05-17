@@ -1,41 +1,103 @@
-<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-green-500">
-    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
-    <p class="text-sm text-gray-600 mt-1">
-      Chance: <span class="font-bold text-green-600">{{ admission.chance }}</span>
-    </p>
-    <p class="text-gray-500 mt-2">
-      {{ reason }}
-    </p>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-yellow-500">
-    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
-    <p class="text-sm text-gray-600 mt-1">
-      Chance: <span class="font-bold text-yellow-600">{{ admission.chance }}</span>
-    </p>
-    <p class="text-gray-500 mt-2">
-      {{ reason }}
-    </p>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-red-500">
-    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
-    <p class="text-sm text-gray-600 mt-1">
-      Chance: <span class="font-bold text-red-600">{{ admission.chance }}</span>
-    </p>
-    <p class="text-gray-500 mt-2">
-      {{ reason }}
-    </p>
-  </div>
+{% for uni in universities %}
+<div
+  class="bg-white shadow-md rounded-2xl p-6 border-l-4 border-{{ uni.color }}"
+>
+  <h3 class="text-xl font-bold text-gray-800 mb-2">{{ uni.name }}</h3>
+  <p>
+    <span class="font-medium">Admission Chance:</span>
+    <span class="text-{{ uni.color }}-600 font-semibold">{{ uni.chance }}</span>
+  </p>
+  <p><span class="font-medium">Reason:</span> {{ uni.reason }}</p>
+  <p>
+    <span class="font-medium">Application Readiness:</span> {{ uni.readiness }}%
+  </p>
+  <p><span class="font-medium">Suggestions:</span> {{ uni.suggestions }}</p>
 </div>
+{% endfor %}
 
-<div class="mt-6 text-center">
-    <button 
-      class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition" 
-      onclick="window.location.reload();"
+<!--<div class="py-6 px-4">
+  <h2 class="text-2xl font-semibold text-green-700 mb-6 text-center">
+    University Recommendations
+  </h2>
+
+  <div
+    id="university-recommendations"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
+     Card 1 
+    <div class="bg-white shadow-md rounded-2xl p-6 border-l-4 border-red-500">
+      <h3 class="text-xl font-bold text-gray-800 mb-2">
+        University of California, Berkeley
+      </h3>
+      <p>
+        <span class="font-medium">Admission Chance:</span>
+        <span class="text-red-600 font-semibold">Low</span>
+      </p>
+      <p>
+        <span class="font-medium">Reason:</span> Highly competitive program, GRE
+        score significantly below average for admitted students.
+      </p>
+      <p><span class="font-medium">Application Readiness:</span> 40%</p>
+      <p>
+        <span class="font-medium">Suggestions:</span> Focus on strengthening
+        research experience and potentially retaking the GRE. Highlight GPA and
+        AI research experience in the application.
+      </p>
+    </div>
+
+     Card 2
+    <div
+      class="bg-white shadow-md rounded-2xl p-6 border-l-4 border-yellow-500"
+    >
+      <h3 class="text-xl font-bold text-gray-800 mb-2">
+        Oregon State University
+      </h3>
+      <p>
+        <span class="font-medium">Admission Chance:</span>
+        <span class="text-yellow-600 font-semibold">Medium</span>
+      </p>
+      <p>
+        <span class="font-medium">Reason:</span> Solid GPA and AI research
+        experience, but GRE score is a concern.
+      </p>
+      <p><span class="font-medium">Application Readiness:</span> 65%</p>
+      <p>
+        <span class="font-medium">Suggestions:</span> Craft a strong statement
+        of purpose explaining the low GRE score and emphasizing research skills.
+        Explore specific faculty and research areas within the Computer Science
+        department.
+      </p>
+    </div>
+
+    Card 3
+    <div class="bg-white shadow-md rounded-2xl p-6 border-l-4 border-green-500">
+      <h3 class="text-xl font-bold text-gray-800 mb-2">
+        Utah Valley University
+      </h3>
+      <p>
+        <span class="font-medium">Admission Chance:</span>
+        <span class="text-green-600 font-semibold">High</span>
+      </p>
+      <p>
+        <span class="font-medium">Reason:</span> Open admissions model provides
+        a high likelihood of acceptance.
+      </p>
+      <p><span class="font-medium">Application Readiness:</span> 90%</p>
+      <p>
+        <span class="font-medium">Suggestions:</span> Ensure all application
+        materials are submitted on time and meet the minimum requirements.
+        Research specific faculty or research areas of interest within the
+        Computer Science program.
+      </p>
+    </div>
+  </div>
+
+  <div class="text-center mt-6">
+    <button
+      onclick="location.reload()"
+      class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-full shadow"
     >
       Try Again
     </button>
   </div>
-
+</div> -->
