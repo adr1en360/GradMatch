@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Replace with your actual view
+    path("execute-flow/", LangflowExecuteView.as_view(), name="execute_flow"),
 ]

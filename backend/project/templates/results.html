@@ -1,0 +1,41 @@
+<div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-green-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-green-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-yellow-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-yellow-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-6 border-l-4 border-red-500">
+    <h2 class="text-xl font-semibold text-gray-800">{{ university.name }}</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Chance: <span class="font-bold text-red-600">{{ admission.chance }}</span>
+    </p>
+    <p class="text-gray-500 mt-2">
+      {{ reason }}
+    </p>
+  </div>
+</div>
+
+<div class="mt-6 text-center">
+    <button 
+      class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition" 
+      onclick="window.location.reload();"
+    >
+      Try Again
+    </button>
+  </div>
+
