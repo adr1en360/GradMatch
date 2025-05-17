@@ -20,13 +20,13 @@
         Find Your Best-Fit Grad Schools
       </h1>
       <form
-        hx-post="/recommend/"
-        hx-target="#results"
-        hx-swap="innerHTML"
-        hx-encoding="application/x-www-form-urlencoded"
-        hx-indicator="#loading"
-        class="space-y-4"
-      >
+      hx-post="/recommend/"
+      hx-target="#results"
+      hx-swap="innerHTML"
+      hx-encoding="application/x-www-form-urlencoded"
+      hx-indicator="#loading"
+      class="space-y-4"
+    >
         <div id="loading" class="hidden text-center text-green-600 font-medium">
           Loading recommendations...
         </div>
@@ -76,7 +76,7 @@
           Get Recommendations
         </button>
       </form>
-      <div id="results" class="mt-6"></div>
+      <div id="results" hx-target="#results" hx-swap="innerHTML" class="mt-6"></div>
     </div>
   </body>
 </html>
