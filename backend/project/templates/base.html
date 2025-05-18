@@ -1,10 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GradMatch{% endblock %}</title>
+    
+    <!-- Add favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         /* Global styles */
         body {
@@ -24,11 +29,25 @@
             align-items: center;
         }
 
+        /* Update logo styles */
         .logo {
+            display: flex;
+            align-items: center;
             color: #2e7d32;
             font-size: 1.5rem;
             font-weight: 600;
             text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .logo:hover {
+            opacity: 0.9;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            margin-right: 0.75rem;
         }
 
         .nav-links {
@@ -97,12 +116,16 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="{% url 'index' %}" class="logo">GradMatch</a>
+        <a href="{% url 'index' %}" class="logo">
+            <img src="{% static 'logo.svg' %}" alt="GradMatch Logo">
+            <span>GradMatch</span>
+        </a>
         <div class="nav-links">
             <a href="{% url 'statement_editor' %}" {% if request.resolver_match.url_name == 'statement_editor' %}class="active"{% endif %}>Personal Statement</a>
             <a href="{% url 'checklist' %}" {% if request.resolver_match.url_name == 'checklist' %}class="active"{% endif %}>Checklist</a>
             <a href="{% url 'forum' %}" {% if request.resolver_match.url_name == 'forum' %}class="active"{% endif %}>Forum</a>
             <a href="{% url 'form' %}" {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}>Get Recommendations</a>
+            <a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>Dashboard</a>
         </div>
     </nav>
 
