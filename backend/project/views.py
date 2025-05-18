@@ -3,6 +3,7 @@ import os
 import logging
 from pathlib import Path
 from django.http import HttpResponse
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.utils.decorators import method_decorator
@@ -17,6 +18,42 @@ logger = logging.getLogger(__name__)
 @require_http_methods(["GET"])
 def application_form(request):
     return render(request, 'form.html')
+
+def parse_university_text(text):
+    universities = []
+    current_uni = {}
+    
+    for line in text.strip().split('\n'):
+        line = line.strip()
+        if not line:
+            continue
+            
+        if line.startswith('#UNIVERSITY'):
+            if current_uni:
+                universities.append(current_uni)
+            current_uni = {}
+            continue
+            
+        if ':' in line:
+            key, value = line.split(':', 1)
+            key = key.strip().lower()
+            value = value.strip()
+            
+            if key == 'name':
+                current_uni['name'] = value
+            elif key == 'chance':
+                current_uni['chance'] = value
+            elif key == 'reason':
+                current_uni['reason'] = value
+            elif key == 'readiness':
+                current_uni['readiness'] = value.rstrip('%')
+            elif key == 'suggestions':
+                current_uni['suggestions'] = value
+                
+    if current_uni:
+        universities.append(current_uni)
+        
+    return universities
 
 @require_http_methods(["POST"])
 def get_recommendations(request):
@@ -40,7 +77,7 @@ def get_recommendations(request):
         
         payload = {
             "input_value": input_message,
-            "output_type": "text",  # Changed from "chat" to "text"
+            "output_type": "text", 
             "input_type": "text"
         }
 
@@ -66,7 +103,7 @@ def get_recommendations(request):
             # Parse the nested response structure
             ai_response = response.json()
             
-            # Navigate through the response structure to get the text
+            # Extract the message text and parse JSON
             text_output = (
                 ai_response.get('outputs', [])[0]
                 .get('outputs', [])[0]
@@ -74,31 +111,50 @@ def get_recommendations(request):
                 .get('message', '')
             )
             
-            logger.debug("Extracted text: %s", text_output)
-            
-            # Create a single university entry from text response
-            universities = [{
-                'name': f'Recommendations for {program}',
-                'chance': 'Analysis',
-                'reason': text_output,
-                'readiness': '100',
-                'suggestions': 'Based on AI analysis',
-                'color': 'green-500'
-            }]
-            
-            # Return the results template with context
-            return render(request, 'results.html', {
-                'universities': universities,
-                'raw_response': text_output  # Add raw response for debugging
-            })
-            
-        except (requests.exceptions.RequestException, KeyError, IndexError) as e:
-            logger.error(f"Error processing response: {str(e)}")
+            try:
+                # Parse the text response
+                universities = parse_university_text(text_output)
+                
+                if not universities:
+                    logger.error("No universities found in response")
+                    return HttpResponse(
+                        '<div class="text-red-500">Invalid response format from AI service</div>',
+                        status=500
+                    )
+                
+                # Add color coding
+                for uni in universities:
+                    uni['color'] = {
+                        'High': 'green-500',
+                        'Med': 'yellow-500',
+                        'Low': 'red-500'
+                    }.get(uni['chance'], 'gray-500')
+                
+                logger.debug("Processed universities: %s", universities)
+                
+                return render(request, 'results.html', {
+                    'universities': universities,
+                    'program': program,
+                    'debug': settings.DEBUG
+                })
+                
+            except Exception as e:
+                logger.error("Error processing response: %s", str(e))
+                return HttpResponse(
+                    '<div class="text-red-500">Error processing response</div>',
+                    status=500
+                )
+                
+        except requests.exceptions.RequestException as e:
+            logger.error("API request failed: %s", str(e))
             return HttpResponse(
-                '<div class="text-red-500">Error processing AI response. Please try again.</div>',
+                '<div class="text-red-500">Failed to connect to AI service</div>',
                 status=500
             )
             
     except Exception as e:
-        logger.error("Error in get_recommendations: %s", str(e))
-        return HttpResponse(str(e), status=500)
+        logger.error("Unexpected error: %s", str(e))
+        return HttpResponse(
+            '<div class="text-red-500">An unexpected error occurred</div>',
+            status=500
+        )
