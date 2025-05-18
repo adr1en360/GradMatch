@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import get_recommendations, application_form
+from . import views
 
 urlpatterns = [
-    path('', application_form, name='application_form'),
-    path('recommend/', get_recommendations, name='recommend'),
+    path('', views.index, name='index'),
+    path('form/', views.application_form, name='form'),
+    path('recommend/', views.get_recommendations, name='recommend'),
 ]

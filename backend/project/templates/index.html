@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GradMatch Web App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      /* Global styles */
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fe;
+        color: #1e1e2f;
+      }
+      /* Navigation */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 3rem;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      nav .logo h4 {
+        color: #2e7d32;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #1e1e2f;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+      }
+      nav ul li a:hover {
+        background-color: #2e7d32;
+        color: #ffffff;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+      /* Container & Header */
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 70px);
+        padding: 2rem;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+      }
+      .header p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #555;
+      }
+      .btn-primary {
+        background-color: #2e7d32;
+        color: #fff;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .btn-primary:hover {
+        background-color: #276a2b;
+      }
+      /* Features Section */
+      .features {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .feature {
+        background: #f3f5ff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        width: 200px;
+      }
+      .feature img {
+        width: 50px;
+        margin-bottom: 1rem;
+      }
+      /* Footer */
+      footer {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #ffffff;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="logo">
+        <h4>GradMatch</h4>
+      </div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">How it Works</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="{% url 'form' %}">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="header">
+        <h1>Find an Advisor to Guide You</h1>
+        <p>Your one-stop web app to connect with mentors, funding advisors, and skill enhancers.</p>
+        <button class="btn-primary" onclick="window.location.href='{% url 'form' %}'">Get Started</button>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Mentor">
+          <p>Connect with Mentors</p>
+        </div>
+        <div class="feature">
+          <img src="https://cdn-icons-png.flaticon.com/512/841/841364.png" alt="Apply">
+          <p>Apply for Mentorship</p>
+        </div>
+        <div class="feature">
+          <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Level Up">
+          <p>Advance Your Skills</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 GradMatch. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>
