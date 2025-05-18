@@ -93,34 +93,6 @@
         "className": "",
         "data": {
           "sourceHandle": {
-            "dataType": "TextInput",
-            "id": "TextInput-wJNvC",
-            "name": "text",
-            "output_types": [
-              "Message"
-            ]
-          },
-          "targetHandle": {
-            "fieldName": "research",
-            "id": "Prompt-OH8lu",
-            "inputTypes": [
-              "Message"
-            ],
-            "type": "str"
-          }
-        },
-        "id": "reactflow__edge-TextInput-wJNvC{œdataTypeœ:œTextInputœ,œidœ:œTextInput-wJNvCœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}-Prompt-OH8lu{œfieldNameœ:œresearchœ,œidœ:œPrompt-OH8luœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
-        "selected": false,
-        "source": "TextInput-wJNvC",
-        "sourceHandle": "{œdataTypeœ:œTextInputœ,œidœ:œTextInput-wJNvCœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}",
-        "target": "Prompt-OH8lu",
-        "targetHandle": "{œfieldNameœ:œresearchœ,œidœ:œPrompt-OH8luœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
-      },
-      {
-        "animated": false,
-        "className": "",
-        "data": {
-          "sourceHandle": {
             "dataType": "Prompt",
             "id": "Prompt-OH8lu",
             "name": "prompt",
@@ -425,6 +397,34 @@
         "sourceHandle": "{œdataTypeœ:œCombineTextœ,œidœ:œCustomComponent-q86Q8œ,œnameœ:œcombined_textœ,œoutput_typesœ:[œMessageœ]}",
         "target": "Prompt-OH8lu",
         "targetHandle": "{œfieldNameœ:œsearch_resultsœ,œidœ:œPrompt-OH8luœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
+      },
+      {
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "TextInput",
+            "id": "TextInput-wJNvC",
+            "name": "text",
+            "output_types": [
+              "Message"
+            ]
+          },
+          "targetHandle": {
+            "fieldName": "research",
+            "id": "Prompt-OH8lu",
+            "inputTypes": [
+              "Message"
+            ],
+            "type": "str"
+          }
+        },
+        "id": "xy-edge__TextInput-wJNvC{œdataTypeœ:œTextInputœ,œidœ:œTextInput-wJNvCœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}-Prompt-OH8lu{œfieldNameœ:œresearchœ,œidœ:œPrompt-OH8luœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+        "selected": false,
+        "source": "TextInput-wJNvC",
+        "sourceHandle": "{œdataTypeœ:œTextInputœ,œidœ:œTextInput-wJNvCœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}",
+        "target": "Prompt-OH8lu",
+        "targetHandle": "{œfieldNameœ:œresearchœ,œidœ:œPrompt-OH8luœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}"
       }
     ],
     "nodes": [
@@ -882,6 +882,7 @@
             "is_input": null,
             "is_output": null,
             "legacy": false,
+            "lf_version": "1.4.1",
             "metadata": {},
             "minimized": false,
             "name": "",
@@ -1052,7 +1053,7 @@
                 "tool_mode": false,
                 "trace_as_input": true,
                 "type": "prompt",
-                "value": "Given this applicant's profile:  \n- Program: {program}  \n- GPA: {gpa}  \n- GRE Score: {gre}  \n- Research Experience: {research}  \n\nAnd the following real-time search data:  \n{search_results}  \n\nAnalyze all information rigorously, even if search data is sparse or unreliable. If search results are insufficient, fall back on general admission trends, ranking databases, and logical inference based on similar profiles. You can leave out deadlines as they are not relevate.\n\nRecommend exactly 3 universities, with no bias toward any region or country. For each university, include:  \n- University Name  \n- Admission Chance (High / Medium / Low) — based on the applicant's profile  \n- One-line Reason — why this school fits or doesn't  \n- Application Readiness Score (0–100%) — how prepared the applicant is to apply  \n- 1–2 Suggestions for Improvement — targeted steps to strengthen the application for that university\n\nIf search results are incomplete or unclear, clearly state this in your rationale and base recommendations on inferred data.\n\nOutput only the formatted university list as plain text — no extra commentary."
+                "value": "Given this applicant's profile:  \n- Program: {program}  \n- GPA: {gpa}  \n- GRE Score: {gre}  \n- Research Experience: {research}  \n\nUse this {search_results} to:\n\nReturn exactly 3 university recommendations in this EXACT format:\n\n#UNIVERSITY1\nNAME: [university name]\nCHANCE: [High|Med|Low]\nREASON: [one-line reason]\nREADINESS: [0-100]\nSUGGESTIONS: [improvement steps about 2]\n\n#UNIVERSITY2\nNAME: [university name]\nCHANCE: [High|Med|Low]\nREASON: [one-line reason]\nREADINESS: [0-100]\nSUGGESTIONS: [improvement steps about 2]\n\n#UNIVERSITY3\nNAME: [university name]\nCHANCE: [High|Med|Low]\nREASON: [one-line reason]\nREADINESS: [0-100]\nSUGGESTIONS: [improvement steps about 2]\n\nReturn ONLY the formatted text above, no additional commentary."
               },
               "tool_placeholder": {
                 "_input_type": "MessageTextInput",
@@ -1093,7 +1094,7 @@
           "x": 1641.7303742702832,
           "y": -663.5391288247328
         },
-        "selected": true,
+        "selected": false,
         "type": "genericNode"
       },
       {
@@ -1576,7 +1577,7 @@
           "x": 2621.2561727667585,
           "y": -603.5090261463486
         },
-        "selected": false,
+        "selected": true,
         "type": "genericNode"
       },
       {
@@ -2726,7 +2727,7 @@
                 "allows_loop": false,
                 "cache": true,
                 "display_name": "Parsed Text",
-                "hidden": null,
+                "hidden": false,
                 "method": "parse_combined_text",
                 "name": "parsed_text",
                 "options": null,
@@ -3042,9 +3043,9 @@
       }
     ],
     "viewport": {
-      "x": -1732.7418275811006,
-      "y": 737.6485742520878,
-      "zoom": 1.2346241400471494
+      "x": 405.5368997569128,
+      "y": 356.57786039114717,
+      "zoom": 0.5140825349877494
     }
   },
   "description": "Unleashing Linguistic Creativity.",
@@ -3060,7 +3061,7 @@
   "mcp_enabled": true,
   "name": "Scholary Ai",
   "tags": [],
-  "updated_at": "2025-05-18T13:12:48+00:00",
+  "updated_at": "2025-05-18T14:14:20+00:00",
   "user_id": "654e4e7d-ca8d-4884-9b98-7b6b266b7c1f",
   "webhook": false
 }
