@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advisor Landing Page</title>
+  <title>GradMatch Landing Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -171,7 +171,7 @@
         <a href="#">About Us</a>
         <a href="#">How it Works</a>
         <a href="#">Contact</a>
-        <a href="backend\project\templates\form.html" class="but">Login</a>
+        <a href="{% url 'form' %}" class="but">Login</a>
         </nav>
     </nav>
   <div class="container">
@@ -182,7 +182,7 @@
       <div class="header">
         <h1>Find an Advisor to guide you for the year ahead</h1>
         <p>We use our skills on behalf of our clients to engage conversations on governance and sustainability issues.</p>
-        <button class="btn-primary">Get Started</button>
+        <button href='{% url 'form' %}'" class="btn-primary">Get Started</button>
       </div>
 
       <div class="logos">
@@ -211,7 +211,7 @@
       <div class="section">
         <h3>Free and forever free</h3>
         <p>Enjoy unlimited access to all mentorship tools and opportunities, with no hidden costs.</p>
-        <span class="find-btn">Find Advisor</span>
+        <a href="{% url 'form' %}" class="find-btn">Find Advisor</a>
         <img class="section-img" src="https://images.unsplash.com/photo-1563013544-824ae1b704d3" alt="Free forever">
       </div>
     </div>
@@ -222,20 +222,20 @@
         <div class="section">
           <h3>Learn new skill, launch that project, land your dream career.</h3>
           <p>Get expert guidance. Right when you need it most.</p>
-          <span class="find-btn">Find Advisor</span>
+          <a href="{% url 'form' %}" class="find-btn">Find Advisor</a>
         </div>
 
         <div class="section">
           <h3>Virtual boardroom</h3>
           <p>Host discussions with advisors and peers, track goals, and share updates all in one place.</p>
-          <span class="find-btn">Find Advisor</span>
+          <a href="{% url 'form' %}" class="find-btn">Find Advisor</a>
           <img class="section-img" src="https://images.unsplash.com/photo-1573164713988-8665fc963095" alt="Boardroom">
         </div>
 
         <div class="section">
           <h3>Funding advisors</h3>
           <p>Connect with funding experts and raise capital with confidence.</p>
-          <span class="find-btn">Find Advisor</span>
+          <a href="{% url 'form' %}" class="find-btn">Find Advisor</a>
           <img class="section-img" src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df" alt="Funding">
         </div>
 

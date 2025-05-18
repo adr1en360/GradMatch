@@ -19,6 +19,10 @@ logger = logging.getLogger(__name__)
 def application_form(request):
     return render(request, 'form.html')
 
+@require_http_methods(["GET"])
+def home_view(request):
+    return render(request, 'home.html')
+
 def parse_university_text(text):
     universities = []
     current_uni = {}
