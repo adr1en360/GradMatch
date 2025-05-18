@@ -36,7 +36,7 @@ def dashboard(request):
             {
                 'school': 'Stanford University',
                 'program': 'Computer Science PhD',
-                'deadline': 'Dec 15, 2023'
+                'deadline': 'July 30, 2025'
             }
         ]
     }
@@ -56,7 +56,7 @@ def checklist(request):
         {
             'name': 'Stanford University',
             'program': 'Computer Science PhD',
-            'deadline': 'Dec 15, 2023',
+            'deadline': 'July 30, 2025',
             'progress': 75
         }
     ]
@@ -74,7 +74,7 @@ def forum(request):
     topics = [
         {
             'title': 'Tips for CS PhD Applications',
-            'author': 'Jane Doe',
+            'author': 'Sam Musk',
             'posted': '2 hours ago',
             'replies': 15
         }
