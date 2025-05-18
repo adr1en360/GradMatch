@@ -121,10 +121,10 @@
             <span>GradMatch</span>
         </a>
         <div class="nav-links">
-            <a href="{% url 'statement_editor' %}" {% if request.resolver_match.url_name == 'statement_editor' %}class="active"{% endif %}>Personal Statement</a>
-            <a href="{% url 'checklist' %}" {% if request.resolver_match.url_name == 'checklist' %}class="active"{% endif %}>Checklist</a>
-            <a href="{% url 'forum' %}" {% if request.resolver_match.url_name == 'forum' %}class="active"{% endif %}>Forum</a>
             <a href="{% url 'form' %}" {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}>Get Recommendations</a>
+            <a href="{% url 'checklist' %}" {% if request.resolver_match.url_name == 'checklist' %}class="active"{% endif %}>Checklist</a>
+            <a href="{% url 'statement_editor' %}" {% if request.resolver_match.url_name == 'statement_editor' %}class="active"{% endif %}>Personal Statement</a>
+            <a href="{% url 'forum' %}" {% if request.resolver_match.url_name == 'forum' %}class="active"{% endif %}>Forum</a>
             <a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>Dashboard</a>
         </div>
     </nav>

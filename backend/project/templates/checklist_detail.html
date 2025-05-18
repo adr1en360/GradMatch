@@ -4,9 +4,30 @@
 
 {% block extra_styles %}
 <style>
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .school-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .checklist-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
     .checklist-items {
-        max-width: 800px;
-        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1.5rem;
     }
 
     .checklist-item {
@@ -16,27 +37,198 @@
         border-bottom: 1px solid #e0e0e0;
     }
 
+    .checklist-item:last-child {
+        border-bottom: none;
+    }
+
     .checklist-item input[type="checkbox"] {
         margin-right: 1rem;
+        width: 18px;
+        height: 18px;
+        accent-color: #2e7d32;
+    }
+
+    .item-content {
+        flex-grow: 1;
     }
 
     .deadline {
-        margin-left: auto;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .documents-section {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+    }
+
+    .upload-area {
+        border: 2px dashed #e0e0e0;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        margin: 1rem 0;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .upload-area:hover {
+        border-color: #2e7d32;
+        background: #f1f8f1;
+    }
+
+    .document-list {
+        margin-top: 1rem;
+    }
+
+    .document-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .document-icon {
+        margin-right: 0.75rem;
+        color: #2e7d32;
+    }
+
+    .document-meta {
+        font-size: 0.85rem;
         color: #666;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Stanford University - Computer Science PhD</h2>
-    <div class="checklist-items">
-        <div class="checklist-item">
-            <input type="checkbox" id="item1">
-            <label for="item1">Submit Application Form</label>
-            <span class="deadline">Dec 1, 2023</span>
+<div class="container">
+    <div class="school-header">
+        <h1>Stanford University - Computer Science PhD</h1>
+        <span class="deadline">Final Deadline: Dec 15, 2023</span>
+    </div>
+
+    <div class="checklist-grid">
+        <div class="checklist-items">
+            <h2>Application Checklist</h2>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="item1">
+                <div class="item-content">
+                    <label for="item1">Submit Online Application</label>
+                    <p class="deadline">Due: Dec 1, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item2">
+                <div class="item-content">
+                    <label for="item2">Statement of Purpose</label>
+                    <p class="deadline">Due: Dec 1, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item3">
+                <div class="item-content">
+                    <label for="item3">3 Letters of Recommendation</label>
+                    <p class="deadline">Due: Dec 8, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item4">
+                <div class="item-content">
+                    <label for="item4">Official Transcripts</label>
+                    <p class="deadline">Due: Dec 1, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item5">
+                <div class="item-content">
+                    <label for="item5">CV/Resume</label>
+                    <p class="deadline">Due: Dec 1, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item6">
+                <div class="item-content">
+                    <label for="item6">GRE Scores (Optional)</label>
+                    <p class="deadline">Due: Dec 8, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item7">
+                <div class="item-content">
+                    <label for="item7">TOEFL/IELTS Scores (if applicable)</label>
+                    <p class="deadline">Due: Dec 8, 2023</p>
+                </div>
+            </div>
+
+            <div class="checklist-item">
+                <input type="checkbox" id="item8">
+                <div class="item-content">
+                    <label for="item8">Application Fee/Fee Waiver</label>
+                    <p class="deadline">Due: Dec 1, 2023</p>
+                </div>
+            </div>
         </div>
-        <!-- Add more checklist items -->
+
+        <div class="documents-section">
+            <h2>Documents</h2>
+            <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+                <input type="file" id="file-upload" style="display: none;" onchange="handleFileUpload(event)">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p>Click to upload or drag files here</p>
+            </div>
+
+            <div class="document-list">
+                <div class="document-item">
+                    <span class="document-icon">📄</span>
+                    <div>
+                        <div>Statement_of_Purpose_Draft1.pdf</div>
+                        <div class="document-meta">Uploaded on Nov 15, 2023</div>
+                    </div>
+                </div>
+                <div class="document-item">
+                    <span class="document-icon">📄</span>
+                    <div>
+                        <div>Resume_Stanford.pdf</div>
+                        <div class="document-meta">Uploaded on Nov 14, 2023</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        // In a real application, you would handle the file upload here
+        console.log('File selected:', file.name);
+        // Add the file to the document list
+        const documentList = document.querySelector('.document-list');
+        const newDocument = document.createElement('div');
+        newDocument.className = 'document-item';
+        newDocument.innerHTML = `
+            <span class="document-icon">📄</span>
+            <div>
+                <div>${file.name}</div>
+                <div class="document-meta">Uploaded just now</div>
+            </div>
+        `;
+        documentList.insertBefore(newDocument, documentList.firstChild);
+    }
+}
+</script>
 {% endblock %}
