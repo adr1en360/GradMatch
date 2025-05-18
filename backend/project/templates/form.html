@@ -3,13 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>GradMatch AI - Find Your Best Fit</title>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
     />
+    <style>
+      .htmx-indicator {
+        display: none;
+      }
+      .htmx-request .htmx-indicator {
+        display: block;
+      }
+      .htmx-request.htmx-indicator {
+        display: block;
+      }
+    </style>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        });
+    </script>
   </head>
   <body
     class="bg-green-50 text-gray-800 min-h-screen flex items-center justify-center"
@@ -20,65 +35,71 @@
       <h1 class="text-2xl font-bold mb-6 text-center">
         Find Your Best-Fit Grad Schools
       </h1>
-      <form
-        hx-post="/recommend/"
-        hx-target="#results"
-        hx-swap="innerHTML"
-        hx-indicator="#loading"
-        class="space-y-4"
-      >
-        <div id="loading" class="hidden text-center text-green-600 font-medium">
-          Loading recommendations...
-        </div>
-        <div>
-          <label class="block font-medium">Program</label>
-          <input
-            type="text"
-            name="program"
-            required
-            class="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            placeholder="e.g. Computer Science"
-          />
-        </div>
-        <div>
-          <label class="block font-medium">GPA</label>
-          <input
-            type="number"
-            name="gpa"
-            step="0.01"
-            required
-            class="w-full mt-1 p-2 border border-green-300 rounded-md"
-            placeholder="e.g. 3.75"
-          />
-        </div>
-        <div>
-          <label class="block font-medium">GRE Score (Optional)</label>
-          <input
-            type="text"
-            name="gre"
-            class="w-full mt-1 p-2 border border-green-300 rounded-md"
-            placeholder="e.g. 320"
-          />
-        </div>
-        <div>
-          <label class="block font-medium">Research or Experience</label>
-          <textarea
-            name="experience"
-            rows="4"
-            class="w-full mt-1 p-2 border border-green-300 rounded-md"
-            placeholder="Briefly describe your background"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          class="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700"
+      <div class="container">
+        <form
+          hx-post="{% url 'recommend' %}"
+          hx-target="#results"
+          hx-swap="innerHTML"
+          hx-indicator="#loading"
+          class="space-y-4"
         >
-          Get Recommendations
-        </button>
-      </form>
+          {% csrf_token %}
+          <div>
+            <label class="block font-medium">Program</label>
+            <input
+              type="text"
+              name="program"
+              required
+              class="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              placeholder="e.g. Computer Science"
+            />
+          </div>
+          <div>
+            <label class="block font-medium">GPA</label>
+            <input
+              type="number"
+              name="gpa"
+              step="0.01"
+              required
+              class="w-full mt-1 p-2 border border-green-300 rounded-md"
+              placeholder="e.g. 3.75"
+            />
+          </div>
+          <div>
+            <label class="block font-medium">GRE Score (Optional)</label>
+            <input
+              type="text"
+              name="gre"
+              class="w-full mt-1 p-2 border border-green-300 rounded-md"
+              placeholder="e.g. 320"
+            />
+          </div>
+          <div>
+            <label class="block font-medium">Research or Experience</label>
+            <textarea
+              name="research"
+              rows="4"
+              class="w-full mt-1 p-2 border border-green-300 rounded-md"
+              placeholder="Briefly describe your background"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700"
+          >
+            Get Recommendations
+          </button>
+        </form>
 
-      <div id="results" class="mt-4"></div>
+        <div id="loading" class="htmx-indicator text-center text-green-600 font-medium">
+          <div class="animate-spin inline-block w-6 h-6 border-4 border-green-600 border-t-transparent rounded-full"></div>
+          <p>Loading recommendations...</p>
+        </div>
 
+        <div id="results" class="mt-4">
+          <!-- AI recommendations will be rendered here -->
+        </div>
+      </div>
     </div>
   </body>
 </html>

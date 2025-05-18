@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from pathlib import Path
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,72 +8,97 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.shortcuts import render
-# Importing Langchain components
-from langchain.chains import SequentialChain
-from langchain.prompts import PromptTemplate
-from langchain.llms import OpenAI
+from django.views.decorators.http import require_http_methods
 from .models import UserData
+import requests
 
-BASE_DIR = Path(__file__).resolve().parent
-FLOW_PATH = BASE_DIR / "langflows/AI_flow.json"
+logger = logging.getLogger(__name__)
 
-def home(request):
-    return render(request, "form.html")
+@require_http_methods(["GET"])
+def application_form(request):
+    return render(request, 'form.html')
 
-@method_decorator(csrf_exempt, name='dispatch')
-class RecomendationView(View):
-    def post(self, request, *args, **kwargs):
+@require_http_methods(["POST"])
+def get_recommendations(request):
+    try:
+        logger.debug("Form Data: %s", request.POST)
+        
+        gre = request.POST.get('gre')
+        program = request.POST.get('program')
+        gpa = request.POST.get('gpa')
+        research = request.POST.get('research')
+
+        # Format input message
+        input_message = f"""
+        Program: {program}
+        GPA: {gpa}
+        GRE Score: {gre}
+        Research Experience: {research}
+        """
+
+        url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
+        
+        payload = {
+            "input_value": input_message,
+            "output_type": "text",  # Changed from "chat" to "text"
+            "input_type": "text"
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
         try:
-            # Extract form data
-            program = request.POST.get("program")
-            gpa = request.POST.get("gpa")
-            gre = request.POST.get("gre")
-            experience = request.POST.get("experience")
-
-            # Save data to the UserData model
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+            
+            logger.debug(f"API Response Status: {response.status_code}")
+            logger.debug(f"API Response: {response.text}")
+            
+            # Save to database
             UserData.objects.create(
+                gre=gre,
                 program=program,
                 gpa=gpa,
-                gre=gre,
-                experience=experience
+                experience=research
             )
-
-            # Load the Langflow JSON
-            with open(FLOW_PATH, "r") as file:
-                flow_data = json.load(file)
-
-            # Check the structure of the flow data
-            if "nodes" not in flow_data:
-                raise ValueError("Invalid flow structure. 'nodes' key is missing.")
-
-            # Process the nodes
-            # Assuming the flow has a prompt template node and an LLM node
-            prompt_template = flow_data["nodes"][0].get("template")
-            llm_node = flow_data["nodes"][1].get("llm")
-
-            # Create the prompt template
-            prompt = PromptTemplate(template=prompt_template, input_variables=["program", "gpa", "gre", "experience"])
-
-            # Initialize the LLM (assuming OpenAI for now; adjust based on your flow)
-            llm = OpenAI()
-
-            # Construct the chain
-            chain = SequentialChain(chains=[prompt, llm], input_variables=["program", "gpa", "gre", "experience"])
-
-            # Execute the flow
-            inputs = {
-                "program": program,
-                "gpa": gpa,
-                "gre": gre,
-                "experience": experience,
-            }
-            result = chain.run(inputs)
-
-            # Render the response
-            recommendations = json.loads(result) if isinstance(result, str) else result
-            html_content = render_to_string("results.html", {"universities": recommendations})
-
-            return HttpResponse(html_content)
-
-        except Exception as e:
-            return HttpResponse(f"<div class='text-red-600'>Error: {str(e)}</div>", status=500)
+            
+            # Parse the nested response structure
+            ai_response = response.json()
+            
+            # Navigate through the response structure to get the text
+            text_output = (
+                ai_response.get('outputs', [])[0]
+                .get('outputs', [])[0]
+                .get('messages', [])[0]
+                .get('message', '')
+            )
+            
+            logger.debug("Extracted text: %s", text_output)
+            
+            # Create a single university entry from text response
+            universities = [{
+                'name': f'Recommendations for {program}',
+                'chance': 'Analysis',
+                'reason': text_output,
+                'readiness': '100',
+                'suggestions': 'Based on AI analysis',
+                'color': 'green-500'
+            }]
+            
+            # Return the results template with context
+            return render(request, 'results.html', {
+                'universities': universities,
+                'raw_response': text_output  # Add raw response for debugging
+            })
+            
+        except (requests.exceptions.RequestException, KeyError, IndexError) as e:
+            logger.error(f"Error processing response: {str(e)}")
+            return HttpResponse(
+                '<div class="text-red-500">Error processing AI response. Please try again.</div>',
+                status=500
+            )
+            
+    except Exception as e:
+        logger.error("Error in get_recommendations: %s", str(e))
+        return HttpResponse(str(e), status=500)
