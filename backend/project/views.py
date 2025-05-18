@@ -1,14 +1,14 @@
 import json
 import os
 import logging
+import requests
 from pathlib import Path
-from django.http import HttpResponse
+
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render, redirect
 from .models import UserData
-import requests
 
 logger = logging.getLogger(__name__)
 
@@ -80,32 +80,6 @@ def forum(request):
 def application_form(request):
     return render(request, 'form.html')
 
-@require_http_methods(["GET"])
-def dashboard(request):
-    # Removed authentication check
-    context = {
-        'user_name': 'Demo User',  # Static placeholder
-        'recent_activities': [
-            {
-                'type': 'statement',
-                'title': 'Personal Statement Draft 1',
-                'date': '2 days ago'
-            },
-            {
-                'type': 'application',
-                'title': 'Stanford Application Updated',
-                'date': '1 week ago'
-            }
-        ],
-        'upcoming_deadlines': [
-            {
-                'school': 'Stanford University',
-                'program': 'Computer Science PhD',
-                'deadline': 'Dec 15, 2023'
-            }
-        ]
-    }
-    return render(request, 'dashboard.html', context)
 
 def parse_university_text(text):
     universities = []
