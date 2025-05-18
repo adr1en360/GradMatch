@@ -20,15 +20,15 @@
         Find Your Best-Fit Grad Schools
       </h1>
       <form
-      hx-post="/recommend/"
-      hx-target="#results"
-      hx-swap="innerHTML"
-      hx-encoding="application/x-www-form-urlencoded"
-      hx-headers='{"Content-Type": "application/json"}'
-      onsubmit="handleFormSubmit(event)"
-      hx-indicator="#loading"
-      class="space-y-4"
-    >
+        hx-post="/recommend/"
+        hx-target="#results"
+        hx-swap="innerHTML"
+        hx-encoding="application/x-www-form-urlencoded"
+        hx-headers='{"Content-Type": "application/json"}'
+        onsubmit="handleFormSubmit(event)"
+        hx-indicator="#loading"
+        class="space-y-4"
+      >
         <div id="loading" class="hidden text-center text-green-600 font-medium">
           Loading recommendations...
         </div>
@@ -90,7 +90,7 @@
             program: form.program.value,
             gpa: form.gpa.value,
             gre: form.gre.value,
-            research: form.research.value
+            research: form.research.value,
           };
           form.setAttribute("hx-vals", JSON.stringify(data));
           form.submit(); // Let HTMX handle the rest

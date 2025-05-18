@@ -1,12 +1,13 @@
 import json
 import os
 from pathlib import Path
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.template.loader import render_to_string
-from langchain.chains import load_chain
+from langchain.chains import load_chain 
 from .models import *
+from django.shortcuts import render
 
 BASE_DIR = Path(__file__).resolve().parent
 FLOW_PATH = BASE_DIR / "langflows/AI_flow.json"
