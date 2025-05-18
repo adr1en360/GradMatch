@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{% csrf_token %}}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>GradMatch AI - Find Your Best Fit</title>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     <link
@@ -21,15 +21,12 @@
         Find Your Best-Fit Grad Schools
       </h1>
       <form
-      hx-post="/recommend/"
-      hx-target="#results"
-      hx-swap="innerHTML"
-      hx-encoding="application/x-www-form-urlencoded"
-      hx-headers='{"Content-Type": "application/json"}'
-      onsubmit="handleFormSubmit(event)"
-      hx-indicator="#loading"
-      class="space-y-4"
-    >
+        hx-post="/recommend/"
+        hx-target="#results"
+        hx-swap="innerHTML"
+        hx-indicator="#loading"
+        class="space-y-4"
+      >
         <div id="loading" class="hidden text-center text-green-600 font-medium">
           Loading recommendations...
         </div>
@@ -79,29 +76,9 @@
           Get Recommendations
         </button>
       </form>
+
       <div id="results" class="mt-4"></div>
 
-      <button onclick="location.reload()">Try Again</button>
-
-      <script>
-        document.body.addEventListener('htmx:configRequest', (event) => {
-          const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-          event.detail.headers['X-CSRFToken'] = csrfToken;
-        });
-
-        function handleFormSubmit(event) {
-          event.preventDefault();
-          const form = event.target;
-          const data = {
-            program: form.program.value,
-            gpa: form.gpa.value,
-            gre: form.gre.value,
-            research: form.research.value
-          };
-          form.setAttribute("hx-vals", JSON.stringify(data));
-          form.submit(); // Let HTMX handle the rest
-        }
-      </script>
     </div>
   </body>
 </html>

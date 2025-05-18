@@ -9,12 +9,4 @@ class UserDataAdmin(admin.ModelAdmin):
     ordering = ('-date',) # Enable autocomplete for the user field
 
     
-    
-class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('user','name', 'location', 'ranking', 'acceptance_rate', 'avg_gre', 'avg_gpa')
-    list_filter = ('user', 'ranking')
-    search_fields = ('user', 'location')
-    ordering = ('ranking',)
-    
 admin.site.register(UserData, UserDataAdmin)
-admin.site.register(University, UniversityAdmin)
