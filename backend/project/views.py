@@ -5,24 +5,107 @@ from pathlib import Path
 from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View
-from django.utils.decorators import method_decorator
-from django.template.loader import render_to_string
-from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+from django.shortcuts import render, redirect
 from .models import UserData
 import requests
 
 logger = logging.getLogger(__name__)
 
+@require_http_methods(["GET"])
 def index(request):
-    print('home page')
     return render(request, 'index.html')
+
+@require_http_methods(["GET"])
+def auth(request):
+    return render(request, 'auth.html')
+
+@require_http_methods(["GET"])
+def statement_editor(request):
+    # TODO: Add logic to fetch saved drafts
+    return render(request, 'statement_editor.html', {
+        'drafts': [],  # Placeholder for saved drafts
+    })
+
+@require_http_methods(["GET"])
+def checklist(request):
+    # TODO: Add logic to fetch user's schools
+    schools = [
+        {
+            'name': 'Stanford University',
+            'program': 'Computer Science PhD',
+            'deadline': 'Dec 15, 2023',
+            'progress': 75,
+        },
+        # Add more example schools
+    ]
+    return render(request, 'checklist.html', {
+        'schools': schools
+    })
+
+@require_http_methods(["GET"])
+def checklist_detail(request):
+    school_id = request.GET.get('school')
+    # TODO: Add logic to fetch specific school details
+    items = [
+        {
+            'task': 'Submit Application Form',
+            'deadline': 'Dec 1, 2023',
+            'completed': False,
+        },
+        # Add more checklist items
+    ]
+    return render(request, 'checklist_detail.html', {
+        'school': {'name': 'Stanford University', 'program': 'Computer Science PhD'},
+        'items': items
+    })
+
+@require_http_methods(["GET"])
+def forum(request):
+    # TODO: Add logic to fetch forum topics
+    topics = [
+        {
+            'title': 'Tips for CS PhD Applications',
+            'author': 'Jane Doe',
+            'posted': '2 hours ago',
+            'replies': 15,
+        },
+        # Add more topics
+    ]
+    return render(request, 'forum.html', {
+        'topics': topics
+    })
 
 @require_http_methods(["GET"])
 def application_form(request):
     return render(request, 'form.html')
 
+@require_http_methods(["GET"])
+def dashboard(request):
+    # Removed authentication check
+    context = {
+        'user_name': 'Demo User',  # Static placeholder
+        'recent_activities': [
+            {
+                'type': 'statement',
+                'title': 'Personal Statement Draft 1',
+                'date': '2 days ago'
+            },
+            {
+                'type': 'application',
+                'title': 'Stanford Application Updated',
+                'date': '1 week ago'
+            }
+        ],
+        'upcoming_deadlines': [
+            {
+                'school': 'Stanford University',
+                'program': 'Computer Science PhD',
+                'deadline': 'Dec 15, 2023'
+            }
+        ]
+    }
+    return render(request, 'dashboard.html', context)
 
 def parse_university_text(text):
     universities = []

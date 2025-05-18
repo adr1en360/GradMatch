@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Forum - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .forum-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .topic-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .topic {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .topic-info {
+        flex-grow: 1;
+    }
+
+    .topic-meta {
+        color: #666;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="forum-header">
+    <h1>Community Forum</h1>
+    <button class="btn btn-primary">New Topic</button>
+</div>
+
+<div class="topic-list">
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Tips for CS PhD Applications</h3>
+            <div class="topic-meta">
+                Posted by Jane Doe • 2 hours ago • 15 replies
+            </div>
+        </div>
+    </div>
+    <!-- Add more topics -->
+</div>
+{% endblock %}

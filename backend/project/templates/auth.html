@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradMatch - Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2e7d32 0%, #76b179 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Doodle Background */
+        .doodles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-rule='evenodd'%3E%3Cpath d='M10 10h10v10H10zM30 10h10v10H30zM50 10h10v10H50z'/%3E%3Cpath d='M20 20h10v10H20zM40 20h10v10H40zM60 20h10v10H60z'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2e7d32;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #276a2b;
+        }
+
+        .social-login {
+            margin: 1.5rem 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-social:hover {
+            background: #e9ecef;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .toggle-form a {
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+
+        .role-selector {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .role-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .role-option input[type="radio"]:checked + label {
+            border-color: #2e7d32;
+            background: #f1f8f1;
+        }
+
+        .role-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="doodles"></div>
+    <div class="container">
+        <div class="auth-box">
+            <!-- Sign In Form -->
+            <form id="signin-form" onsubmit="handleSignIn(event)">
+                <h2>Welcome Back</h2>
+                
+                <div class="social-login">
+                    <button type="button" class="btn btn-social">
+                        <img src="https://www.google.com/favicon.ico" alt="" width="20" height="20">
+                        Continue with Google
+                    </button>
+                    <button type="button" class="btn btn-social">
+                        <img src="https://www.apple.com/favicon.ico" alt="" width="20" height="20">
+                        Continue with Apple
+                    </button>
+                </div>
+
+                <div class="divider">or</div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Sign In</button>
+
+                <div class="toggle-form">
+                    Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
+                </div>
+            </form>
+
+            <!-- Sign Up Form (hidden by default) -->
+            <form id="signup-form" style="display: none;" onsubmit="handleSignUp(event)">
+                <h2>Create Account</h2>
+                
+                <div class="social-login">
+                    <button type="button" class="btn btn-social">
+                        <img src="https://www.google.com/favicon.ico" alt="" width="20" height="20">
+                        Sign up with Google
+                    </button>
+                    <button type="button" class="btn btn-social">
+                        <img src="https://www.apple.com/favicon.ico" alt="" width="20" height="20">
+                        Sign up with Apple
+                    </button>
+                </div>
+
+                <div class="divider">or</div>
+
+                <div class="role-selector">
+                    <label class="block text-sm font-medium mb-2">I am a:</label>
+                    <div class="role-options">
+                        <div class="role-option">
+                            <input type="radio" id="role-student" name="role" value="student" required>
+                            <label for="role-student">
+                                <span class="role-icon">👨‍🎓</span>
+                                <span>Student</span>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="role-mentor" name="role" value="mentor">
+                            <label for="role-mentor">
+                                <span class="role-icon">👨‍🏫</span>
+                                <span>Mentor</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Account</button>
+
+                <div class="toggle-form">
+                    Already have an account? <a href="#" onclick="toggleForm()">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Existing toggle function
+        function toggleForm() {
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (signinForm.style.display === 'none') {
+                signinForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                signinForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }
+
+        // Add new handler functions
+        function handleSignIn(event) {
+            event.preventDefault();
+            // Just redirect to dashboard
+            window.location.href = "{% url 'dashboard' %}";
+        }
+
+        function handleSignUp(event) {
+            event.preventDefault();
+            // Log form data to console for demo
+            const formData = new FormData(event.target);
+            console.log('Sign up data:', Object.fromEntries(formData));
+            // Redirect to dashboard
+            window.location.href = "{% url 'dashboard' %}";
+        }
+
+        // Existing role selection code
+        document.querySelectorAll('.role-option input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.role-option label').forEach(label => {
+                    label.style.transform = 'scale(1)';
+                });
+                this.nextElementSibling.style.transform = 'scale(1.05)';
+            });
+        });
+    </script>
+</body>
+</html>

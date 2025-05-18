@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GradMatch{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fe;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #2e7d32;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #f1f8f1;
+            color: #2e7d32;
+        }
+
+        .nav-links a.active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* Main content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #276a2b;
+        }
+
+        /* Custom styles for each page */
+        {% block extra_styles %}{% endblock %}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'index' %}" class="logo">GradMatch</a>
+        <div class="nav-links">
+            <a href="{% url 'statement_editor' %}" {% if request.resolver_match.url_name == 'statement_editor' %}class="active"{% endif %}>Personal Statement</a>
+            <a href="{% url 'checklist' %}" {% if request.resolver_match.url_name == 'checklist' %}class="active"{% endif %}>Checklist</a>
+            <a href="{% url 'forum' %}" {% if request.resolver_match.url_name == 'forum' %}class="active"{% endif %}>Forum</a>
+            <a href="{% url 'form' %}" {% if request.resolver_match.url_name == 'form' %}class="active"{% endif %}>Get Recommendations</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Personal Statement Editor - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .editor-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    .editor {
+        min-height: 500px;
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        resize: vertical;
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+    }
+
+    .suggestions {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Personal Statement Editor</h1>
+<div class="editor-container">
+    <div class="card">
+        <textarea class="editor" placeholder="Start writing your personal statement here..."></textarea>
+        <div class="toolbar mt-4">
+            <button class="btn btn-primary">Get AI Suggestions</button>
+            <button class="btn">Save Draft</button>
+        </div>
+    </div>
+    <div class="suggestions card">
+        <h3>AI Suggestions</h3>
+        <p>Your suggestions will appear here...</p>
+    </div>
+</div>
+{% endblock %}

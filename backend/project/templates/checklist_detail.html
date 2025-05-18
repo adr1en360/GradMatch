@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Checklist Details - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .checklist-items {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .checklist-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .checklist-item input[type="checkbox"] {
+        margin-right: 1rem;
+    }
+
+    .deadline {
+        margin-left: auto;
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Stanford University - Computer Science PhD</h2>
+    <div class="checklist-items">
+        <div class="checklist-item">
+            <input type="checkbox" id="item1">
+            <label for="item1">Submit Application Form</label>
+            <span class="deadline">Dec 1, 2023</span>
+        </div>
+        <!-- Add more checklist items -->
+    </div>
+</div>
+{% endblock %}
