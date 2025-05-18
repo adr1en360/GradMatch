@@ -12,7 +12,8 @@ from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-
+from django.views.generic import View
+from django.http import JsonResponse
 # Langchain imports (if needed)
 from langchain.chains import load_chain
 
@@ -29,6 +30,16 @@ def index(request):
 def application_form(request):
     return render(request, 'form.html')
 
+# In views.py
+from django.views.generic import View
+from django.http import JsonResponse
+
+class RecommendationView(View):
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'message': 'GET request handled'})
+    
+    def post(self, request, *args, **kwargs):
+        return JsonResponse({'message': 'POST request handled'})
 
 def parse_university_text(text):
     universities = []
