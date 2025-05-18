@@ -69,7 +69,7 @@ GradMatch/
 
 ## LangFlow Integration
 
-This project uses LangFlow to process user inputs and generate recommendations. The flow configuration is stored in the `Scholary Ai (1).json` file. You can modify this file to customize the AI's behavior.
+This project uses LangFlow to process user inputs and generate recommendations. The flow configuration is stored in the `AI_flow.json` file. You can modify this file to customize the AI's behavior.
 
 ### Running LangFlow
 
