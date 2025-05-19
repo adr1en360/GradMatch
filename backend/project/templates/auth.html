@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GradMatch - Sign In</title>
@@ -13,18 +14,6 @@
             background: linear-gradient(135deg, #2e7d32 0%, #76b179 100%);
             position: relative;
             overflow: hidden;
-        }
-
-        /* Doodle Background */
-        .doodles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-rule='evenodd'%3E%3Cpath d='M10 10h10v10H10zM30 10h10v10H30zM50 10h10v10H50z'/%3E%3Cpath d='M20 20h10v10H20zM40 20h10v10H40zM60 20h10v10H60z'/%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
         }
 
         .container {
@@ -188,12 +177,45 @@
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text {
+            color: #333;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .logo-container a {
+            display: inline-block;
+            color: inherit;
+            transition: opacity 0.2s;
+        }
+
+        .logo-container a:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
-    <div class="doodles"></div>
     <div class="container">
         <div class="auth-box">
+            <div class="logo-container">
+                <a href="{% url 'index' %}" style="text-decoration: none;">
+                    <img src="{% static 'logo.svg' %}" alt="GradMatch Logo">
+                    <div class="logo-text">GradMatch</div>
+                </a>
+            </div>
+
             <!-- Sign In Form -->
             <form id="signin-form" onsubmit="handleSignIn(event)">
                 <h2>Welcome Back</h2>

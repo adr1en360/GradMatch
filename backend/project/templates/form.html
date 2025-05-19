@@ -17,7 +17,7 @@
 
     .form-card {
         background: white;
-        padding: 2rem;
+        padding: 3rem;  /* Increased padding */
         border-radius: 16px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
@@ -81,97 +81,6 @@
         display: block;
     }
 
-<<<<<<< HEAD
-        greInput.addEventListener("input", function () {
-          const value = parseInt(this.value);
-          if (value) {
-            if (value < 260 || value > 340) {
-              this.setCustomValidity("GRE score must be between 260 and 340");
-              this.classList.add("border-red-500");
-            } else {
-              this.setCustomValidity("");
-              this.classList.remove("border-red-500");
-            }
-          } else {
-            // Empty is OK since it's optional
-            this.setCustomValidity("");
-            this.classList.remove("border-red-500");
-          }
-        });
-      });
-    </script>
-  </head>
-  <body
-    class="bg-green-50 text-gray-800 min-h-screen flex items-center justify-center"
-  >
-    <div
-      class="max-w-xl w-full bg-white p-8 rounded-xl shadow-md border border-green-200"
-    >
-      <h1 class="text-2xl font-bold mb-6 text-center">
-        Find Your Best-Fit Grad Schools
-      </h1>
-
-      <div class="container">
-        <form
-          hx-post="{% url 'recommend' %}"
-          hx-target="#results"
-          hx-swap="innerHTML"
-          hx-indicator="#loading"
-          class="space-y-4"
-        >
-          {% csrf_token %}
-          <div>
-            <label class="block font-medium">Program</label>
-            <input
-              type="text"
-              name="program"
-              required
-              class="w-full mt-1 p-2 border border-gray-300 rounded-md"
-              placeholder="e.g. Computer Science"
-            />
-          </div>
-          <div>
-            <label class="block font-medium">GPA</label>
-            <input
-              type="number"
-              name="gpa"
-              step="0.01"
-              required
-              class="w-full mt-1 p-2 border border-green-300 rounded-md"
-              placeholder="e.g. 3.75"
-            />
-          </div>
-          <div>
-            <label class="block font-medium">GRE Score (Optional)</label>
-            <input
-              type="number"
-              name="gre"
-              min="260"
-              max="340"
-              class="w-full mt-1 p-2 border border-green-300 rounded-md"
-              placeholder="Combined score (260-340)"
-            />
-            <p class="text-sm text-gray-500 mt-1">
-              Enter combined Verbal and Quantitative scores (260-340)
-            </p>
-          </div>
-          <div>
-            <label class="block font-medium">Research or Experience</label>
-            <textarea
-              name="research"
-              rows="4"
-              class="w-full mt-1 p-2 border border-green-300 rounded-md"
-              placeholder="Briefly describe your background"
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            class="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700"
-          >
-            Get Recommendations
-          </button>
-        </form>
-=======
     .spinner {
         display: inline-block;
         width: 2rem;
@@ -185,10 +94,52 @@
     @keyframes spin {
         to { transform: rotate(360deg); }
     }
->>>>>>> a18422f5e75af8b76e65dd597e5db1df2c7ee0ef
 
     #results {
         margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fe;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .recommendation-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .recommendation-item {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-left: 4px solid #2e7d32;
+    }
+
+    .recommendation-item h3 {
+        margin: 0 0 0.5rem 0;
+        color: #2e7d32;
+        font-size: 1.2rem;
+    }
+
+    .recommendation-item p {
+        margin: 0;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .result-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .result-header h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin: 0;
     }
 
     .nav-header {
@@ -223,6 +174,112 @@
     .logo-text {
         font-size: 2rem;
         font-weight: 600;
+    }
+
+    .program-header {
+        color: #2e7d32;
+        font-size: 1.4rem;
+        margin: 0 0 1rem 0;
+    }
+
+    .university-name {
+        font-size: 1.2rem;
+        color: #333;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .chance-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .chance-badge.high {
+        background: #e3f5e3;
+        color: #2e7d32;
+    }
+
+    .chance-badge.med {
+        background: #fff3e0;
+        color: #f57c00;
+    }
+
+    .chance-badge.low {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+    .details {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .readiness-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .readiness-section h5 {
+        color: #333;
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .progress-bar {
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0.5rem 0;
+    }
+
+    .progress {
+        height: 100%;
+        background: #2e7d32;
+        transition: width 0.3s ease;
+    }
+
+    .percentage {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .suggestions-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .suggestions-section h5 {
+        color: #333;
+        margin: 0 0 0.75rem 0;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .suggestions-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .suggestion-item {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .suggestion-item::before {
+        content: "•";
+        position: absolute;
+        left: 0.5rem;
+        color: #2e7d32;
     }
 </style>
 {% endblock %}
@@ -295,7 +352,12 @@
             <p style="color: #2e7d32; margin-top: 0.5rem;">Analyzing your profile...</p>
         </div>
 
-        <div id="results"></div>
+        <div id="results" hx-swap="innerHTML">
+            <!-- If the response contains the login page, display a user-friendly message -->
+            {% if not user.is_authenticated %}
+                <div class="text-red-500">Please log in to access recommendations.</div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -303,28 +365,10 @@
 {% block extra_scripts %}
 <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 <script>
+    // Sends CSRF token with all HTMX requests
     document.body.addEventListener("htmx:configRequest", (event) => {
         event.detail.headers["X-CSRFToken"] = document.querySelector("[name=csrfmiddlewaretoken]").value;
     });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const greInput = document.querySelector('input[name="gre"]');
-        
-        greInput.addEventListener("input", function() {
-            const value = parseInt(this.value);
-            if (value) {
-                if (value < 260 || value > 340) {
-                    this.setCustomValidity("GRE score must be between 260 and 340");
-                    this.classList.add("border-red-500");
-                } else {
-                    this.setCustomValidity("");
-                    this.classList.remove("border-red-500");
-                }
-            } else {
-                this.setCustomValidity("");
-                this.classList.remove("border-red-500");
-            }
-        });
-    });
+    // No additional client‐side processing is needed because the server returns HTML.
 </script>
 {% endblock %}
