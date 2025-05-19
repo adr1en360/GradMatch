@@ -120,6 +120,7 @@ def parse_university_text(response_json):
         return []
 
 @require_http_methods(["POST"])
+@csrf_exempt 
 def get_recommendations(request):
     try:
         logger.debug("Form Data: %s", request.POST)
@@ -137,7 +138,7 @@ def get_recommendations(request):
         Research Experience: {research}
         """
 
-        url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
+        url = "http://0.0.0.0:7860/api/v1/execute"
         
         payload = {
             "input_value": "input_message",

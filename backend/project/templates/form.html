@@ -352,7 +352,12 @@
             <p style="color: #2e7d32; margin-top: 0.5rem;">Analyzing your profile...</p>
         </div>
 
-        <div id="results"></div>
+        <div id="results" hx-swap="innerHTML">
+            <!-- If the response contains the login page, display a user-friendly message -->
+            {% if not user.is_authenticated %}
+                <div class="text-red-500">Please log in to access recommendations.</div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
