@@ -76,7 +76,6 @@ def forum(request):
         {
             'title': 'Tips for CS PhD Applications',
             'author': 'Mark Zukerberg',
-            'author': 'Mark Zukerberg',
             'posted': '2 hours ago',
             'replies': 15
         }

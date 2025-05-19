@@ -126,6 +126,8 @@
             <a href="{% url 'statement_editor' %}" {% if request.resolver_match.url_name == 'statement_editor' %}class="active"{% endif %}>Personal Statement</a>
             <a href="{% url 'forum' %}" {% if request.resolver_match.url_name == 'forum' %}class="active"{% endif %}>Forum</a>
             <a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>Dashboard</a>
+            <a href="{% url 'auth' %}" class="nav-link">Login</a>
+            <a href="{% url 'auth' %}" class="cta-button">Get Started</a>
         </div>
     </nav>
 

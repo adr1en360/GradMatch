@@ -117,6 +117,21 @@
         text-align: center;
         box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
       }
+      .cta-buttons {
+        margin-top: 1.5rem;
+      }
+      .cta-button.primary {
+        background-color: #2e7d32;
+        color: #fff;
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        display: inline-block;
+      }
+      .cta-button.primary:hover {
+        background-color: #276a2b;
+      }
     </style>
   </head>
   <body>
@@ -140,7 +155,7 @@
       <div class="header">
         <h1>Find an Advisor to Guide You</h1>
         <p>Your one-stop web app to connect with mentors, funding advisors, and skill enhancers.</p>
-        <button class="btn-primary" onclick="window.location.href='{% url 'form' %}'">Get Started</button>
+        <button class="btn-primary" onclick="window.location.href='{% url 'auth' %}'">Get Started</button>
       </div>
       <div class="features">
         <div class="feature">
