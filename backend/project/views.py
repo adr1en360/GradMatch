@@ -120,95 +120,33 @@ def parse_university_text(response_json):
         return []
 
 @require_http_methods(["POST"])
-@csrf_exempt 
 def get_recommendations(request):
-    try:
-        logger.debug("Form Data: %s", request.POST)
-        
-        gre = request.POST.get('gre')
-        program = request.POST.get('program')
-        gpa = request.POST.get('gpa')
-        research = request.POST.get('research')
-
-        # Format input message
-        input_message = f"""
-        Program: {program}
-        GPA: {gpa}
-        GRE Score: {gre}
-        Research Experience: {research}
-        """
-
-        url = "http://0.0.0.0:7860/api/v1/execute"
-        
-        payload = {
-            "input_value": "input_message",
-            "output_type": "text", 
-            "input_type": "text"
-        }
-        logger.debug("Payload: %s", payload)
-        
-        headers = {
-            "Content-Type": "application/json"
-        }
-
+        LANGFLOW_API_URL = "http://127.0.0.1:7860/api/v1/execute" 
         try:
-            response = requests.post(url, json=payload, headers=headers)
-            response.raise_for_status()
-            
-            logger.debug(f"API Response Status: {response.status_code}")
-            logger.debug(f"API Response: {response.text}")
-            
-            # Save to database
-            UserData.objects.create(
-                gre=gre,
-                program=program,
-                gpa=gpa,
-                experience=research
-            )
-            
-            # Parse the response
-            response_json = response.json()
-            universities = parse_university_text(response_json)
-            
-            if not universities:
-                logger.error("No universities found in response")
-                return HttpResponse(
-                    '<div class="text-red-500">Invalid response format from AI service</div>',
-                    status=500
-                )
-            
-            # Add color coding for chance levels
-            for uni in universities:
-                uni['color'] = {
-                    'High': 'green-500',
-                    'Med': 'yellow-500',
-                    'Low': 'red-500'
-                }.get(uni['chance'], 'gray-500')
-            
-            logger.debug("Processed universities: %s", universities)
-            
-            return render(request, 'results.html', {
-                'universities': universities,
-                'program': program,
-                'debug': settings.DEBUG
-            })
-                
-        except requests.exceptions.RequestException as e:
-            logger.error("API request failed: %s", str(e))
-            return HttpResponse(
-                '<div class="text-red-500">Failed to connect to AI service</div>',
-                status=500
-            )
-        except json.JSONDecodeError as e:
-            logger.error("Error parsing JSON response: %s", str(e))
-            return HttpResponse(
-                '<div class="text-red-500">Invalid response from AI service</div>',
-                status=500
-            )
-            
-    except Exception as e:
-        logger.error("Unexpected error: %s", str(e))
-        return HttpResponse(
-            '<div class="text-red-500">An unexpected error occurred</div>',
-            status=500
-        )
+            # Extract form data
+            program = request.POST.get("program")
+            gpa = request.POST.get("gpa")
+            gre = request.POST.get("gre")
+            experience = request.POST.get("experience")
+
+            # Prepare payload for Langflow
+            payload = {
+                "program": program,
+                "gpa": gpa,
+                "gre": gre,
+                "research": experience
+            }
+
+            # Send request to Langflow
+            try:
+                response = requests.post(LANGFLOW_API_URL, json=payload, timeout=10)
+                response.raise_for_status()  # Raises HTTPError for bad responses
+                recommendations = response.json()
+                return HttpResponse(f"<div>{recommendations}</div>")
+
+            except requests.exceptions.RequestException as e:
+                # Show Langflow error directly in the response
+                return HttpResponse(f"<div class='text-red-600'>Langflow Error: {str(e)}</div>", status=500)
+
+        except Exception as e:
+            return HttpResponse(f"<div class='text-red-600'>General Error: {str(e)}</div>", status=500)
