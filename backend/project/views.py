@@ -37,7 +37,7 @@ def dashboard(request):
             {
                 'school': 'Stanford University',
                 'program': 'Computer Science PhD',
-                'deadline': 'Dec 15, 2023'
+                'deadline': 'July 30, 2025'
             }
         ]
     }
@@ -57,7 +57,7 @@ def checklist(request):
         {
             'name': 'Stanford University',
             'program': 'Computer Science PhD',
-            'deadline': 'Dec 15, 2023',
+            'deadline': 'July 30, 2025',
             'progress': 75
         }
     ]
@@ -75,6 +75,7 @@ def forum(request):
     topics = [
         {
             'title': 'Tips for CS PhD Applications',
+            'author': 'Mark Zukerberg',
             'author': 'Mark Zukerberg',
             'posted': '2 hours ago',
             'replies': 15
@@ -128,6 +129,14 @@ def get_recommendations(request):
         program = request.POST.get('program')
         gpa = request.POST.get('gpa')
         research = request.POST.get('research')
+
+        # Format input message
+        input_message = f"""
+        Program: {program}
+        GPA: {gpa}
+        GRE Score: {gre}
+        Research Experience: {research}
+        """
 
         url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
         
