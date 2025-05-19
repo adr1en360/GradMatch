@@ -1,5 +1,6 @@
 import logging
 import requests
+import json
 from pathlib import Path
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -82,41 +83,41 @@ def forum(request):
     return render(request, 'forum.html', {'topics': topics})
 
 
-def parse_university_text(text):
-    universities = []
-    current_uni = {}
-    
-    for line in text.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-            
-        if line.startswith('#UNIVERSITY'):
-            if current_uni:
-                universities.append(current_uni)
-            current_uni = {}
-            continue
-            
-        if ':' in line:
-            key, value = line.split(':', 1)
-            key = key.strip().lower()
-            value = value.strip()
-            
-            if key == 'name':
-                current_uni['name'] = value
-            elif key == 'chance':
-                current_uni['chance'] = value
-            elif key == 'reason':
-                current_uni['reason'] = value
-            elif key == 'readiness':
-                current_uni['readiness'] = value.rstrip('%')
-            elif key == 'suggestions':
-                current_uni['suggestions'] = value
-                
-    if current_uni:
-        universities.append(current_uni)
+def parse_university_text(response_json):
+    try:
+        # Extract the text content from the response
+        text_content = response_json['outputs'][0]['outputs'][0]['results']['text']['text']
         
-    return universities
+        universities = []
+        current_uni = {}
+        
+        for line in text_content.split('\n'):
+            line = line.strip()
+            if not line:
+                continue
+                
+            if line.startswith('#UNIVERSITY'):
+                if current_uni:
+                    universities.append(current_uni)
+                current_uni = {}
+            elif line.startswith('NAME:'):
+                current_uni['name'] = line.replace('NAME:', '').strip()
+            elif line.startswith('CHANCE:'):
+                current_uni['chance'] = line.replace('CHANCE:', '').strip()
+            elif line.startswith('REASON:'):
+                current_uni['reason'] = line.replace('REASON:', '').strip()
+            elif line.startswith('READINESS:'):
+                current_uni['readiness'] = line.replace('READINESS:', '').strip().rstrip('%')
+            elif line.startswith('SUGGESTIONS:'):
+                current_uni['suggestions'] = line.replace('SUGGESTIONS:', '').strip()
+        
+        if current_uni:
+            universities.append(current_uni)
+            
+        return universities
+    except Exception as e:
+        logger.error(f"Error parsing response: {e}")
+        return []
 
 @require_http_methods(["POST"])
 def get_recommendations(request):
@@ -128,20 +129,17 @@ def get_recommendations(request):
         gpa = request.POST.get('gpa')
         research = request.POST.get('research')
 
-        # Format input message
-        input_message = f"""
-        Program: {program}
-        GPA: {gpa}
-        GRE Score: {gre}
-        Research Experience: {research}
-        """
-
         url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
         
         payload = {
-            "input_value": input_message,
-            "output_type": "text", 
-            "input_type": "text"
+            "output_type": "chat",
+            "input_type": "text",
+            "tweaks": {
+                "TextInput-uLle1": {"input_value": gre},      # GRE Score
+                "TextInput-HApJP": {"input_value": program},  # Program
+                "TextInput-nCOg3": {"input_value": gpa},      # GPA
+                "TextInput-p00DX": {"input_value": research}  # Research Experience
+            }
         }
 
         headers = {
@@ -163,55 +161,43 @@ def get_recommendations(request):
                 experience=research
             )
             
-            # Parse the nested response structure
-            ai_response = response.json()
+            # Parse the response
+            response_json = response.json()
+            universities = parse_university_text(response_json)
             
-            # Extract the message text and parse JSON
-            text_output = (
-                ai_response.get('outputs', [])[0]
-                .get('outputs', [])[0]
-                .get('messages', [])[0]
-                .get('message', '')
-            )
-            
-            try:
-                # Parse the text response
-                universities = parse_university_text(text_output)
-                
-                if not universities:
-                    logger.error("No universities found in response")
-                    return HttpResponse(
-                        '<div class="text-red-500">Invalid response format from AI service</div>',
-                        status=500
-                    )
-                
-                # Add color coding
-                for uni in universities:
-                    uni['color'] = {
-                        'High': 'green-500',
-                        'Med': 'yellow-500',
-                        'Low': 'red-500'
-                    }.get(uni['chance'], 'gray-500')
-                
-                logger.debug("Processed universities: %s", universities)
-                
-                return render(request, 'results.html', {
-                    'universities': universities,
-                    'program': program,
-                    'debug': settings.DEBUG
-                })
-                
-            except Exception as e:
-                logger.error("Error processing response: %s", str(e))
+            if not universities:
+                logger.error("No universities found in response")
                 return HttpResponse(
-                    '<div class="text-red-500">Error processing response</div>',
+                    '<div class="text-red-500">Invalid response format from AI service</div>',
                     status=500
                 )
+            
+            # Add color coding for chance levels
+            for uni in universities:
+                uni['color'] = {
+                    'High': 'green-500',
+                    'Med': 'yellow-500',
+                    'Low': 'red-500'
+                }.get(uni['chance'], 'gray-500')
+            
+            logger.debug("Processed universities: %s", universities)
+            
+            return render(request, 'results.html', {
+                'universities': universities,
+                'program': program,
+                'debug': settings.DEBUG
+            })
                 
         except requests.exceptions.RequestException as e:
             logger.error("API request failed: %s", str(e))
             return HttpResponse(
                 '<div class="text-red-500">Failed to connect to AI service</div>',
+                status=500
+            )
+        except json.JSONDecodeError as e:
+            logger.error("Error parsing JSON response: %s", str(e))
+            return HttpResponse(
+                '<div class="text-red-500">Invalid response from AI service</div>',
                 status=500
             )
             

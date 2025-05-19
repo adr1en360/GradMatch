@@ -1,6 +1,6 @@
 import requests
 
-url = "http://127.0.0.1:7861/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
+url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
 
 # Replace these variables with user-provided values
 gre_input = "320"
