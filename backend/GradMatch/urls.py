@@ -20,5 +20,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
+    path('recommend/', include("project.urls")),
+    
+=======
     path('', include("project.urls")),
+>>>>>>> a18422f5e75af8b76e65dd597e5db1df2c7ee0ef
 ]
