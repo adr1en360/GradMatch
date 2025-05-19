@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Application Checklist - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .checklist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .school-card {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .school-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .progress-bar {
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        margin-top: 1rem;
+    }
+
+    .progress-bar div {
+        height: 100%;
+        background: #2e7d32;
+        border-radius: 4px;
+        transition: width 0.3s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="header-actions">
+    <h1>Application Checklist</h1>
+    <button class="btn btn-primary">Add New School</button>
+</div>
+
+<div class="checklist-grid">
+    <div class="card school-card" onclick="window.location.href='{% url 'checklist_detail' %}?school=1'">
+        <h3>Stanford University</h3>
+        <p>Computer Science PhD</p>
+        <p>Deadline: Dec 15, 2023</p>
+        <div class="progress-bar">
+            <div style="width: 75%"></div>
+        </div>
+    </div>
+    <!-- Add more school cards -->
+</div>
+{% endblock %}

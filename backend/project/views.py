@@ -1,45 +1,86 @@
-import json
-import os
 import logging
 import requests
 from pathlib import Path
-
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View
-from django.utils.decorators import method_decorator
-from django.template.loader import render_to_string
-from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from django.views.generic import View
-from django.http import JsonResponse
-# Langchain imports (if needed)
-from langchain.chains import load_chain
-
-# Model imports
 from .models import UserData
 
 logger = logging.getLogger(__name__)
 
 def index(request):
-    print('home page')
     return render(request, 'index.html')
+
+@require_http_methods(["GET"])
+def auth(request):
+    return render(request, 'auth.html')
+
+@require_http_methods(["GET"])
+def dashboard(request):
+    context = {
+        'recent_activities': [
+            {
+                'type': 'statement',
+                'title': 'Personal Statement Draft 1',
+                'date': '2 days ago'
+            },
+            {
+                'type': 'application',
+                'title': 'Stanford Application Updated',
+                'date': '1 week ago'
+            }
+        ],
+        'upcoming_deadlines': [
+            {
+                'school': 'Stanford University',
+                'program': 'Computer Science PhD',
+                'deadline': 'July 30, 2025'
+            }
+        ]
+    }
+    return render(request, 'dashboard.html', context)
 
 @require_http_methods(["GET"])
 def application_form(request):
     return render(request, 'form.html')
 
-# In views.py
-from django.views.generic import View
-from django.http import JsonResponse
+@require_http_methods(["GET"])
+def statement_editor(request):
+    return render(request, 'statement_editor.html')
 
-class RecommendationView(View):
-    def get(self, request, *args, **kwargs):
-        return JsonResponse({'message': 'GET request handled'})
-    
-    def post(self, request, *args, **kwargs):
-        return JsonResponse({'message': 'POST request handled'})
+@require_http_methods(["GET"])
+def checklist(request):
+    schools = [
+        {
+            'name': 'Stanford University',
+            'program': 'Computer Science PhD',
+            'deadline': 'July 30, 2025',
+            'progress': 75
+        }
+    ]
+    return render(request, 'checklist.html', {'schools': schools})
+
+@require_http_methods(["GET"])
+def checklist_detail(request):
+    school_id = request.GET.get('school')
+    return render(request, 'checklist_detail.html', {
+        'school': {'name': 'Stanford University', 'program': 'Computer Science PhD'}
+    })
+
+@require_http_methods(["GET"])
+def forum(request):
+    topics = [
+        {
+            'title': 'Tips for CS PhD Applications',
+            'author': 'Sam Musk',
+            'posted': '2 hours ago',
+            'replies': 15
+        }
+    ]
+    return render(request, 'forum.html', {'topics': topics})
+
 
 def parse_university_text(text):
     universities = []

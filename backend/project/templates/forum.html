@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Forum - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .forum-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .topic-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .topic {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .topic-info {
+        flex-grow: 1;
+    }
+
+    .topic-meta {
+        color: #666;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="forum-header">
+    <h1>Community Forum</h1>
+    <button class="btn btn-primary">New Topic</button>
+</div>
+
+<div class="topic-list">
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Tips for CS PhD Applications</h3>
+            <div class="topic-meta">
+                Posted by Jane Doe • 2 hours ago • 15 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>How to Write a Strong Research Statement</h3>
+            <div class="topic-meta">
+                Posted by Alex Chen • 5 hours ago • 8 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>GRE Study Group - Fall 2024</h3>
+            <div class="topic-meta">
+                Posted by Maria Garcia • 1 day ago • 23 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Fellowship Application Deadlines 2024</h3>
+            <div class="topic-meta">
+                Posted by Sam Johnson • 2 days ago • 12 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Interview Experience: Stanford CS</h3>
+            <div class="topic-meta">
+                Posted by David Kim • 3 days ago • 31 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Research Experience vs Work Experience</h3>
+            <div class="topic-meta">
+                Posted by Emma Wilson • 4 days ago • 19 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Letter of Recommendation Tips</h3>
+            <div class="topic-meta">
+                Posted by Michael Brown • 5 days ago • 14 replies
+            </div>
+        </div>
+    </div>
+
+    <div class="card topic">
+        <div class="topic-info">
+            <h3>Funding Options for International Students</h3>
+            <div class="topic-meta">
+                Posted by Priya Patel • 1 week ago • 27 replies
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

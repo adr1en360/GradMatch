@@ -1,36 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GradMatch AI - Find Your Best Fit</title>
-    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-    />
-    <style>
-      .htmx-indicator {
-        display: none;
-      }
-      .htmx-request .htmx-indicator {
-        display: block;
-      }
-      .htmx-request.htmx-indicator {
-        display: block;
-      }
-    </style>
-    <script>
-      document.body.addEventListener("htmx:configRequest", (event) => {
-        event.detail.headers["X-CSRFToken"] = document.querySelector(
-          "[name=csrfmiddlewaretoken]"
-        ).value;
-      });
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const greInput = document.querySelector('input[name="gre"]');
+{% extends 'base.html' %}
+{% load static %}
 
+{% block title %}GradMatch - Get Recommendations{% endblock %}
+
+{% block extra_styles %}
+<style>
+    body {
+        background: linear-gradient(135deg, #2e7d32 0%, #76b179 100%);
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .form-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-family: 'Inter', sans-serif;
+        transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #2e7d32;
+    }
+
+    .helper-text {
+        font-size: 0.875rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 0.75rem;
+        background: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        background: #276a2b;
+    }
+
+    .loading-indicator {
+        display: none;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .loading-indicator.active {
+        display: block;
+    }
+
+<<<<<<< HEAD
         greInput.addEventListener("input", function () {
           const value = parseInt(this.value);
           if (value) {
@@ -120,21 +171,160 @@
             Get Recommendations
           </button>
         </form>
+=======
+    .spinner {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 3px solid #2e7d32;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+    }
 
-        <div
-          id="loading"
-          class="htmx-indicator text-center text-green-600 font-medium"
-        >
-          <div
-            class="animate-spin inline-block w-6 h-6 border-4 border-green-600 border-t-transparent rounded-full"
-          ></div>
-          <p>Loading recommendations...</p>
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+>>>>>>> a18422f5e75af8b76e65dd597e5db1df2c7ee0ef
+
+    #results {
+        margin-top: 2rem;
+    }
+
+    .nav-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #2e7d32;
+        transition: opacity 0.2s;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .logo-link:hover {
+        opacity: 0.9;
+        background-color: #f1f8f1;
+    }
+
+    .logo-image {
+        width: 48px;
+        height: 48px;
+        margin-right: 1rem;
+    }
+
+    .logo-text {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-card">
+        <div class="nav-header">
+            <a href="{% url 'index' %}" class="logo-link">
+                <img src="{% static 'logo.svg' %}" alt="GradMatch Logo" class="logo-image">
+                <span class="logo-text">GradMatch</span>
+            </a>
         </div>
 
-        <div id="results" class="mt-4">
-          <!-- AI recommendations will be rendered here -->
+        <h1 style="text-align: center; margin-bottom: 2rem; font-size: 1.75rem; font-weight: 600; color: #333;">
+            Get Your Graduate School Recommendations
+        </h1>
+
+        <form hx-post="{% url 'recommend' %}" 
+              hx-target="#results" 
+              hx-swap="innerHTML" 
+              hx-indicator="#loading">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="program">Program</label>
+                <input type="text" 
+                       id="program"
+                       name="program" 
+                       required 
+                       placeholder="e.g. Computer Science">
+            </div>
+
+            <div class="form-group">
+                <label for="gpa">GPA</label>
+                <input type="number" 
+                       id="gpa"
+                       name="gpa" 
+                       step="0.01" 
+                       required 
+                       placeholder="e.g. 3.75">
+            </div>
+
+            <div class="form-group">
+                <label for="gre">GRE Score (Optional)</label>
+                <input type="number" 
+                       id="gre"
+                       name="gre" 
+                       min="260" 
+                       max="340" 
+                       placeholder="Combined score (260-340)">
+                <div class="helper-text">
+                    Enter combined Verbal and Quantitative scores (260-340)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="research">Research or Experience</label>
+                <textarea id="research"
+                          name="research" 
+                          rows="4" 
+                          placeholder="Briefly describe your research experience, publications, or relevant work experience"></textarea>
+            </div>
+
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        <div id="loading" class="loading-indicator">
+            <div class="spinner"></div>
+            <p style="color: #2e7d32; margin-top: 0.5rem;">Analyzing your profile...</p>
         </div>
-      </div>
+
+        <div id="results"></div>
     </div>
-  </body>
-</html>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/htmx.org@1.9.2"></script>
+<script>
+    document.body.addEventListener("htmx:configRequest", (event) => {
+        event.detail.headers["X-CSRFToken"] = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const greInput = document.querySelector('input[name="gre"]');
+        
+        greInput.addEventListener("input", function() {
+            const value = parseInt(this.value);
+            if (value) {
+                if (value < 260 || value > 340) {
+                    this.setCustomValidity("GRE score must be between 260 and 340");
+                    this.classList.add("border-red-500");
+                } else {
+                    this.setCustomValidity("");
+                    this.classList.remove("border-red-500");
+                }
+            } else {
+                this.setCustomValidity("");
+                this.classList.remove("border-red-500");
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - GradMatch{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .welcome-header {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .quick-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        background: #f1f8f1;
+        color: #2e7d32;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+        background: #2e7d32;
+        color: white;
+    }
+
+    .section-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: #f1f8f1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+
+    .deadline-item {
+        padding: 1rem;
+        border-left: 4px solid #2e7d32;
+        background: #f8f9fe;
+        margin-bottom: 0.5rem;
+        border-radius: 4px;
+    }
+
+    .progress-section {
+        margin-top: 1rem;
+    }
+
+    .progress-bar {
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        margin-top: 0.5rem;
+    }
+
+    .progress-bar div {
+        height: 100%;
+        background: #2e7d32;
+        border-radius: 4px;
+        transition: width 0.3s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="welcome-header">
+    <h1>Welcome to Your Dashboard</h1>
+    <div class="quick-actions">
+        <a href="{% url 'form' %}" class="action-btn">
+            <span>🎯</span> Get Recommendations
+        </a>
+        <a href="{% url 'statement_editor' %}" class="action-btn">
+            <span>📝</span> Write Statement
+        </a>
+        <a href="{% url 'checklist' %}" class="action-btn">
+            <span>✓</span> View Checklist
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Recent Activity -->
+    <div class="section-card">
+        <h2>Recent Activity</h2>
+        {% for activity in recent_activities %}
+        <div class="activity-item">
+            <div class="activity-icon">
+                {% if activity.type == 'statement' %}📝{% else %}📋{% endif %}
+            </div>
+            <div>
+                <h3>{{ activity.title }}</h3>
+                <p class="text-gray-500">{{ activity.date }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No recent activity</p>
+        {% endfor %}
+    </div>
+
+    <!-- Upcoming Deadlines -->
+    <div class="section-card">
+        <h2>Upcoming Deadlines</h2>
+        {% for deadline in upcoming_deadlines %}
+        <div class="deadline-item">
+            <h3>{{ deadline.school }}</h3>
+            <p>{{ deadline.program }}</p>
+            <p class="text-red-500">Due: {{ deadline.deadline }}</p>
+        </div>
+        {% empty %}
+        <p>No upcoming deadlines</p>
+        {% endfor %}
+    </div>
+
+    <!-- Application Progress -->
+    <div class="section-card">
+        <h2>Application Progress</h2>
+        <div class="progress-section">
+            <div class="flex justify-between">
+                <span>Personal Statement</span>
+                <span>70%</span>
+            </div>
+            <div class="progress-bar">
+                <div style="width: 70%"></div>
+            </div>
+        </div>
+        <div class="progress-section">
+            <div class="flex justify-between">
+                <span>Documents Uploaded</span>
+                <span>50%</span>
+            </div>
+            <div class="progress-bar">
+                <div style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

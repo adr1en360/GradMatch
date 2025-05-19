@@ -1,10 +1,14 @@
 from django.urls import path
 from . import views
-from .views import RecommendationView  # Make sure to import your class-based view
 
 urlpatterns = [
-    path('', views.index, name='index'),  # Main landing page
-    path('form/', views.application_form, name='form'),  # Form page
-    path('recommend/', views.get_recommendations, name='recommend'),  # Function-based API endpoint
-    path('recommend-view/', RecommendationView.as_view(), name="recommend-view"),  # Class-based alternative
+    path('', views.index, name='index'),  # Landing page
+    path('auth/', views.auth, name='auth'),  # Combined login/signup page
+    path('dashboard/', views.dashboard, name='dashboard'),  # User dashboard
+    path('form/', views.application_form, name='form'),  # Recommendation form
+    path('recommend/', views.get_recommendations, name='recommend'),  # Process recommendations
+    path('statement-editor/', views.statement_editor, name='statement_editor'),
+    path('checklist/', views.checklist, name='checklist'),
+    path('checklist/detail/', views.checklist_detail, name='checklist_detail'),
+    path('forum/', views.forum, name='forum'),
 ]
