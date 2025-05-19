@@ -75,7 +75,7 @@ def forum(request):
     topics = [
         {
             'title': 'Tips for CS PhD Applications',
-            'author': 'Jane Doe',
+            'author': 'Mark Zukerberg',
             'posted': '2 hours ago',
             'replies': 15
         }
@@ -132,16 +132,12 @@ def get_recommendations(request):
         url = "http://127.0.0.1:7860/api/v1/run/49f4fc8b-9d52-4ade-9261-7cdb390228ec"
         
         payload = {
-            "output_type": "chat",
-            "input_type": "text",
-            "tweaks": {
-                "TextInput-uLle1": {"input_value": gre},      # GRE Score
-                "TextInput-HApJP": {"input_value": program},  # Program
-                "TextInput-nCOg3": {"input_value": gpa},      # GPA
-                "TextInput-p00DX": {"input_value": research}  # Research Experience
-            }
+            "input_value": "input_message",
+            "output_type": "text", 
+            "input_type": "text"
         }
-
+        logger.debug("Payload: %s", payload)
+        
         headers = {
             "Content-Type": "application/json"
         }
