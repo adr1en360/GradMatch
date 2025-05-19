@@ -74,7 +74,7 @@ def forum(request):
     topics = [
         {
             'title': 'Tips for CS PhD Applications',
-            'author': 'Sam Musk',
+            'author': 'Mark Zukerberg',
             'posted': '2 hours ago',
             'replies': 15
         }
@@ -143,7 +143,8 @@ def get_recommendations(request):
             "output_type": "text", 
             "input_type": "text"
         }
-
+        logger.debug("Payload: %s", payload)
+        
         headers = {
             "Content-Type": "application/json"
         }
